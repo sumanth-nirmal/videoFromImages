@@ -3,21 +3,22 @@
 ## Date: November 22, 2017
 # generates video from the images in sequence
 
+import imageio
+
+# install ffmpeg if not installed already
+imageio.plugins.ffmpeg.download()
+
 import glob
 import os
 from moviepy.editor import ImageSequenceClip
 import argparse
-import imageio
+
 
 def main(ip_dir, video):
-    # install ffmpeg if not installed already
-    imageio.plugins.ffmpeg.download()
-
     # generate the video, from the images in sequence
-    vimages = [str(filename) for filename in glob.glob(os.path.join(ip_dir+'/*.jpg'))]
-    print vimages
-    clip = ImageSequenceClip(vimages, fps=25)
-    clip.write_videofile(video+'.mp4', fps=25)
+    vimages = [str(filename) for filename in sorted(glob.glob(os.path.join(ip_dir+'/*.jpg')))]
+    clip = ImageSequenceClip(ip_dir, fps=25)
+    clip.write_videofile(ip_dir+'/'+video+'.mp4', fps=25)
 
 
 if __name__ == '__main__':

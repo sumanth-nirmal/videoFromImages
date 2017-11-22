@@ -14,11 +14,11 @@ from moviepy.editor import ImageSequenceClip
 import argparse
 
 
-def main(ip_dir, video):
+def main(ip_dir, video, fps):
     # generate the video, from the images in sequence
     vimages = [str(filename) for filename in sorted(glob.glob(os.path.join(ip_dir+'/*.jpg')))]
-    clip = ImageSequenceClip(ip_dir, fps=25)
-    clip.write_videofile(ip_dir+'/'+video+'.mp4', fps=25)
+    clip = ImageSequenceClip(vimages, fps)
+    clip.write_videofile(ip_dir+'/'+video+'.mp4', fps)
 
 
 if __name__ == '__main__':
@@ -35,6 +35,12 @@ if __name__ == '__main__':
         default="yes",
         help='video name'
     )
+    parser.add_argument(
+        '--fps',
+        type=int,
+        default="yes",
+        help='frame rate'
+    )
     args = parser.parse_args()
 
-main(args.ip_dir, args.video,)
+main(args.ip_dir, args.video,args.fps,)
